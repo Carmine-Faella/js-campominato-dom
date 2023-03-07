@@ -8,80 +8,126 @@ const title = document.getElementById('title');
 
 let counter = document.getElementById('counter');
 
-let numberBlacklist = [];
+let up = 1;
 
-console.log(numberBlacklist)
+let freeCell = [];
 
-title.classList.remove('d-none');
+gridDom.innerHTML = '';
 
-let up = 0
-
-for(let i = 1; i<=16; i++){
-    const newValidRandomNumber = generateUniqueRandomNumber(numberBlacklist, 1, 100);
-    numberBlacklist.push(newValidRandomNumber);
-
-}
+let finish = false
       
 for(let i = 1 ; i <= 100; i++){
 
-    const current = createSquare();
+    const current = createSquare(i);
 
-    current.innerHTML = `<div class="square-number">${i}</div>`;
+    const createBomb = generateBomb(16);
+
+    current.classList.add('d-none');
     
     current.addEventListener('click',
         function(){
+
+            if(createBomb.includes(i)){
+                this.classList.add('selected-bomb');
+                allBomb(createBomb);
+                counter.innerHTML = 'Il tuo punteggio è: ' + freeCell.length + ' Hai perso';
+            }else{
+                this.classList.add('selected');
+                    if(!freeCell.includes(i)){
+                        freeCell.push(i);
+                        counter.innerHTML = 'Il tuo punteggio è: ' + freeCell.length
+                }   
+            }
+
             
-            up++;
-            counter.innerHTML = 'Il tuo punteggio è: ' + up 
-            
-        }
-)
+
+        }   
+    )
 
     play.addEventListener('click',
 
         function(){
+            current.classList.remove('selected', 'selected-bomb')
             title.classList.add('d-none');
             current.classList.remove('d-none');
+            counter.innerHTML = 'Il tuo punteggio è: 0' 
+            freeCell.length = '0';
         }
     )
-    gridDom.append(current);      
+    
+    gridDom.append(current)
 
-}        
-
+}    
 
 
 //Creiamo la funzione della creazione della griglia
 
-function createSquare() {
+
+function createSquare(i) {
     const elementSelected = document.createElement('div');
     elementSelected.classList.add('square');
-    elementSelected.classList.add('d-none');
 
+    elementSelected.innerHTML = `<div>${i}</div>`
+    
     return elementSelected;
 }
 
-function generateUniqueRandomNumber(blacklist, min, max) {
+function generateBomb(numberBomb){
 
-    let isValidNumber = false;
-    let randomNumber;
+    const bomb = [];
 
-    while (!isValidNumber) {
-        randomNumber = generateRandomNumber(min, max);
-        if (!blacklist.includes(randomNumber)) {
-            isValidNumber = true;
+    for(let i = 1; i<= numberBomb; i++){
+        
+        bomb.push(generateUniqueNumb(bomb, 1, 100));
+
+    }
+
+    return bomb;
+
+}
+
+function generateRandomNumb(min, max){
+
+    const numberRandom = Math.floor(Math.random()*(max - min + 1))+min;
+
+    return numberRandom;
+    
+}
+
+function generateUniqueNumb(blacklist, min, max){
+
+    let isValid = false;
+
+    let number;
+
+    while(!isValid){
+
+        number = generateRandomNumb(min,max);
+
+        if(!blacklist.includes(number)){
+            isValid = true;
         }
     }
 
-    return randomNumber;
-
+    return number;
 }
 
-function generateRandomNumber(min, max) {
+function allBomb(createBomb){
 
-        const number = Math.floor(Math.random() * (max - min +1)) + min;
-        return number;
- 
+    const square = document.getElementsByClassName('square');
+
+    for(let i = 0; i<square.length; i++){
+
+        if(createBomb.includes(i + 1)){
+            square[i].classList.add('selected-bomb')
+        }
+    }
 }
+
+
+
+
+
 
 
 
