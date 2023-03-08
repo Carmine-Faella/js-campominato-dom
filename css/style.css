@@ -37,6 +37,24 @@ footer{
     align-items: center;
 }
 
+.square-middle{
+    border: 2px solid black;
+    width: calc(100% / 9);
+    height: calc(100% / 9);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.square-hard{
+    border: 2px solid black;
+    width: calc(100% / 7);
+    height: calc(100% / 7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .selected{
     background-color: blue;
 }

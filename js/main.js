@@ -1,5 +1,3 @@
-//Definimo le variabili
-
 const gridDom = document.getElementById('grid');
 
 const play = document.getElementById('playTime');
@@ -8,57 +6,155 @@ const title = document.getElementById('title');
 
 let counter = document.getElementById('counter');
 
+const playTime = document.getElementById('level');
+
 let up = 1;
 
 let freeCell = [];
 
 gridDom.innerHTML = '';
 
-let finish = false
-      
-for(let i = 1 ; i <= 100; i++){
+let finish = false;
 
-    const current = createSquare(i);
+playTime.addEventListener('change', function(){
 
-    const createBomb = generateBomb(16);
+    gridDom.innerHTML ='';
 
-    current.classList.add('d-none');
-    
-    current.addEventListener('click',
-        function(){
+    counter.innerHTML ='';
 
-            if(createBomb.includes(i)){
-                this.classList.add('selected-bomb');
-                allBomb(createBomb);
-                counter.innerHTML = 'Il tuo punteggio è: ' + freeCell.length + ' Hai perso';
-            }else{
-                this.classList.add('selected');
-                    if(!freeCell.includes(i)){
-                        freeCell.push(i);
-                        counter.innerHTML = 'Il tuo punteggio è: ' + freeCell.length
-                }   
+    if(this.value == 'easy'){for(let i = 1 ; i <= 100; i++){
+        const current = createSquare(i);
+
+        const createBomb = generateBomb(16,1,100);
+
+        current.classList.add('d-none');
+        
+        current.addEventListener('click',
+            function(){
+
+                if(createBomb.includes(i)){
+                    this.classList.add('selected-bomb');
+                    allBomb(createBomb);
+                    counter.innerHTML = 'Il tuo punteggio è: ' + freeCell.length + ' Hai perso';
+                }else{
+                    this.classList.add('selected');
+                        if(!freeCell.includes(i)){
+                            freeCell.push(i);
+                            counter.innerHTML = 'Il tuo punteggio è: ' + freeCell.length
+                    }   
+                }
+
+                
+
+            }   
+        )
+
+        play.addEventListener('click',
+
+            function(){
+                current.classList.remove('selected', 'selected-bomb')
+                title.classList.add('d-none');
+                current.classList.remove('d-none');
+                counter.innerHTML = 'Il tuo punteggio è: 0' 
+                freeCell.length = '0';
             }
+        )
+        
+        gridDom.append(current)
 
-            
+    }
+    }
+    if(this.value == 'medium'){for(let i = 1 ; i <= 81; i++){
+        const current = createSquare(i);
 
-        }   
-    )
+        const createBomb = generateBomb(16,1,81);
 
-    play.addEventListener('click',
+        current.classList.add('d-none');
+        
+        current.addEventListener('click',
+            function(){
 
-        function(){
-            current.classList.remove('selected', 'selected-bomb')
-            title.classList.add('d-none');
-            current.classList.remove('d-none');
-            counter.innerHTML = 'Il tuo punteggio è: 0' 
-            freeCell.length = '0';
-        }
-    )
+                if(createBomb.includes(i)){
+                    this.classList.add('selected-bomb');
+                    allBomb(createBomb);
+                    counter.innerHTML = 'Il tuo punteggio è: ' + freeCell.length + ' Hai perso';
+                }else{
+                    this.classList.add('selected');
+                        if(!freeCell.includes(i)){
+                            freeCell.push(i);
+                            counter.innerHTML = 'Il tuo punteggio è: ' + freeCell.length
+                    }   
+                }
+
+                
+
+            }   
+        )
+
+        play.addEventListener('click',
+
+            function(){
+                current.classList.remove('selected', 'selected-bomb')
+                title.classList.add('d-none');
+                current.classList.remove('d-none');
+                counter.innerHTML = 'Il tuo punteggio è: 0' 
+                freeCell.length = '0';
+                current.classList.add('square-middle');
+                current.classList.remove('square');
+            }
+        )
     
     gridDom.append(current)
 
-}    
+    }
+    }
+    if(this.value == 'hard'){for(let i = 1 ; i <= 49; i++){
+        const current = createSquare(i);
 
+        const createBomb = generateBomb(16,1,49);
+
+        current.classList.add('d-none');
+        
+        current.addEventListener('click',
+            function(){
+
+                if(createBomb.includes(i)){
+                    this.classList.add('selected-bomb');
+                    allBomb(createBomb);
+                    counter.innerHTML = 'Il tuo punteggio è: ' + freeCell.length + ' Hai perso';
+                }else{
+                    this.classList.add('selected');
+                        if(!freeCell.includes(i)){
+                            freeCell.push(i);
+                            counter.innerHTML = 'Il tuo punteggio è: ' + freeCell.length
+                    }   
+                }
+
+                
+
+            }   
+        )
+
+        play.addEventListener('click',
+
+            function(){
+                current.classList.remove('selected', 'selected-bomb')
+                title.classList.add('d-none');
+                current.classList.remove('d-none');
+                counter.innerHTML = 'Il tuo punteggio è: 0' 
+                freeCell.length = '0';
+                current.classList.add('square-hard');
+                current.classList.remove('square');
+            }
+        )
+        
+        gridDom.append(current)
+
+    }
+    }
+
+})
+      
 
 //Creiamo la funzione della creazione della griglia
 
@@ -72,13 +168,13 @@ function createSquare(i) {
     return elementSelected;
 }
 
-function generateBomb(numberBomb){
+function generateBomb(numberBomb, min, max){
 
     const bomb = [];
 
     for(let i = 1; i<= numberBomb; i++){
         
-        bomb.push(generateUniqueNumb(bomb, 1, 100));
+        bomb.push(generateUniqueNumb(bomb, min, max));
 
     }
 
@@ -122,15 +218,22 @@ function allBomb(createBomb){
             square[i].classList.add('selected-bomb')
         }
     }
+
+    const squareMiddle = document.getElementsByClassName('square-middle');
+
+    for(let i = 0; i<squareMiddle.length; i++){
+
+        if(createBomb.includes(i + 1)){
+            squareMiddle[i].classList.add('selected-bomb')
+        }
+    }
+
+    const squareHard = document.getElementsByClassName('square-hard');
+
+    for(let i = 0; i<squareHard.length; i++){
+
+        if(createBomb.includes(i + 1)){
+            squareHard[i].classList.add('selected-bomb')
+        }
+    }
 }
-
-
-
-
-
-
-
-
-
-
-
