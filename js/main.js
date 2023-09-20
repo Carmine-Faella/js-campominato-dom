@@ -31,32 +31,14 @@ playTime.addEventListener('change', function(){
         
         current.addEventListener('click',
             function(){
-
-                if(createBomb.includes(i)){
-                    this.classList.add('selected-bomb');
-                    allBomb(createBomb);
-                    counter.innerHTML = 'Il tuo punteggio è: ' + freeCell.length + ' Hai perso';
-                }else{
-                    this.classList.add('selected');
-                        if(!freeCell.includes(i)){
-                            freeCell.push(i);
-                            counter.innerHTML = 'Il tuo punteggio è: ' + freeCell.length
-                    }   
-                }
-
-                
-
+                Boom(createBomb, current, i, this.classList)
             }   
         )
 
         play.addEventListener('click',
 
             function(){
-                current.classList.remove('selected', 'selected-bomb')
-                title.classList.add('d-none');
-                current.classList.remove('d-none');
-                counter.innerHTML = 'Il tuo punteggio è: 0' 
-                freeCell.length = '0';
+                reset(current, title, counter, freeCell)
             }
         )
         
@@ -73,32 +55,14 @@ playTime.addEventListener('change', function(){
         
         current.addEventListener('click',
             function(){
-
-                if(createBomb.includes(i)){
-                    this.classList.add('selected-bomb');
-                    allBomb(createBomb);
-                    counter.innerHTML = 'Il tuo punteggio è: ' + freeCell.length + ' Hai perso';
-                }else{
-                    this.classList.add('selected');
-                        if(!freeCell.includes(i)){
-                            freeCell.push(i);
-                            counter.innerHTML = 'Il tuo punteggio è: ' + freeCell.length
-                    }   
-                }
-
-                
-
+                Boom(createBomb, current, i, this.classList)
             }   
         )
 
         play.addEventListener('click',
 
             function(){
-                current.classList.remove('selected', 'selected-bomb')
-                title.classList.add('d-none');
-                current.classList.remove('d-none');
-                counter.innerHTML = 'Il tuo punteggio è: 0' 
-                freeCell.length = '0';
+                reset(current, title, counter, freeCell)
                 current.classList.add('square-middle');
                 current.classList.remove('square');
             }
@@ -117,32 +81,14 @@ playTime.addEventListener('change', function(){
         
         current.addEventListener('click',
             function(){
-
-                if(createBomb.includes(i)){
-                    this.classList.add('selected-bomb');
-                    allBomb(createBomb);
-                    counter.innerHTML = 'Il tuo punteggio è: ' + freeCell.length + ' Hai perso';
-                }else{
-                    this.classList.add('selected');
-                        if(!freeCell.includes(i)){
-                            freeCell.push(i);
-                            counter.innerHTML = 'Il tuo punteggio è: ' + freeCell.length
-                    }   
-                }
-
-                
-
+                Boom(createBomb, current, i, this.classList)
             }   
         )
 
         play.addEventListener('click',
 
             function(){
-                current.classList.remove('selected', 'selected-bomb')
-                title.classList.add('d-none');
-                current.classList.remove('d-none');
-                counter.innerHTML = 'Il tuo punteggio è: 0' 
-                freeCell.length = '0';
+                reset(current, title, counter, freeCell)
                 current.classList.add('square-hard');
                 current.classList.remove('square');
             }
@@ -157,7 +103,29 @@ playTime.addEventListener('change', function(){
       
 
 //Creiamo la funzione della creazione della griglia
+function reset(current, title, counter, freeCell){
+    current.classList.remove('selected', 'selected-bomb')
+                title.classList.add('d-none');
+                current.classList.remove('d-none');
+                counter.innerHTML = 'Il tuo punteggio è: 0' 
+                freeCell.length = '0';
+};
 
+function Boom(createBomb, current, i, classList){
+
+    if(createBomb.includes(i)){
+        current.classList.add('selected-bomb');
+        allBomb(createBomb);
+        counter.innerHTML = 'Il tuo punteggio è: ' + freeCell.length + ' Hai perso';
+    }else{
+        classList.add('selected');
+            if(!freeCell.includes(i)){
+                freeCell.push(i);
+                counter.innerHTML = 'Il tuo punteggio è: ' + freeCell.length
+        }   
+    }
+
+};
 
 function createSquare(i) {
     const elementSelected = document.createElement('div');
