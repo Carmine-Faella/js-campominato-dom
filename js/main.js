@@ -15,7 +15,7 @@ let freeCell = [];
 gridDom.innerHTML = '';
 
 let finish = false;
-
+// commento
 playTime.addEventListener('change', function(){
 
     gridDom.innerHTML ='';
